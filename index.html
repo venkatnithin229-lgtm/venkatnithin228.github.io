@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskNest — Work. Learn. Earn.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --cream: #f5f2ec;
+    --sage: #4a7c59;
+    --sage-light: #e8f0ea;
+    --sage-mid: #a8c5b0;
+    --gold: #c8973a;
+    --gold-light: #fdf3e3;
+    --rust: #c0503a;
+    --rust-light: #fdecea;
+    --sky: #3a6fc0;
+    --sky-light: #e8eef8;
+    --mist: #f0ede7;
+    --border: #e2ddd5;
+    --text-muted: #7a7570;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,242,236,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex; align-items: center; gap: 24px;
+    height: 64px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; flex-shrink: 0;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--ink);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-icon svg { width: 22px; height: 22px; }
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+  }
+  .logo-name span { color: var(--sage); }
+  .nav-tagline {
+    font-size: 12px;
+    color: var(--text-muted);
+    border-left: 1px solid var(--border);
+    padding-left: 16px;
+    letter-spacing: 0.02em;
+  }
+  .nav-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+  .nav-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .nav-btn.outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+  .nav-btn.outline:hover { border-color: var(--ink); }
+  .nav-btn.filled {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .nav-btn.filled:hover { background: #2a2925; }
+
+  /* ── HERO / MARKETING BANNER ── */
+  .hero {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 72px 48px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(74,124,89,0.25) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200,151,58,0.15) 0%, transparent 60%);
+  }
+  .hero-inner { position: relative; max-width: 900px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    color: var(--sage-mid);
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; color: var(--sage); }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  h1 em { color: var(--sage-mid); font-style: normal; }
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(245,242,236,0.7);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .cta-primary {
+    padding: 14px 32px;
+    background: var(--sage);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .cta-primary:hover { background: #3d6b4a; transform: translateY(-1px); }
+  .cta-secondary {
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--cream);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cta-secondary:hover { border-color: rgba(255,255,255,0.5); }
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 56px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 32px;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+  .stat-label { font-size: 13px; color: rgba(245,242,236,0.5); margin-top: 2px; }
+
+  /* ── FILTER BAR ── */
+  .filter-section {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    position: sticky; top: 64px; z-index: 90;
+  }
+  .filter-row {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .filter-btn:hover { border-color: var(--sage); color: var(--sage); }
+  .filter-btn.active {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: white;
+  }
+  .filter-btn svg { width: 13px; height: 13px; }
+  .divider-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .service-scroll {
+    display: flex; gap: 8px; overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    flex: 1;
+  }
+  .service-scroll::-webkit-scrollbar { display: none; }
+  .service-chip {
+    padding: 7px 14px;
+    border-radius: 100px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .service-chip:hover { border-color: var(--sage); background: var(--sage-light); }
+  .service-chip.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--cream);
+  }
+
+  /* ── FILTER MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(15,14,13,0.5);
+    backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    width: 460px;
+    max-width: 90vw;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .modal h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--mist); border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-field { margin-bottom: 20px; }
+  .modal-field label {
+    display: block; font-size: 12px;
+    font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .range-row { display: flex; gap: 10px; }
+  .range-input {
+    flex: 1; padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .range-input:focus { border-color: var(--sage); }
+  .slider-wrap { padding: 8px 0; }
+  input[type=range] {
+    width: 100%; accent-color: var(--sage); height: 4px;
+  }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+  .apply-btn {
+    width: 100%; padding: 14px;
+    background: var(--ink); color: var(--cream);
+    border: none; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 500;
+    cursor: pointer; margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .apply-btn:hover { background: #2a2925; }
+
+  /* ── SERVICES GRID ── */
+  .services-section { padding: 48px 32px; }
+  .section-header {
+    display: flex; align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px; font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .section-count {
+    font-size: 13px; color: var(--text-muted);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .service-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.22s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover { border-color: var(--sage-mid); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(74,124,89,0.1); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .card-meta {
+    display: flex; gap: 16px; margin-bottom: 16px;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; color: var(--text-muted);
+  }
+  .meta-item svg { width: 12px; height: 12px; }
+  .card-price {
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .price-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--sage);
+  }
+  .price-unit { font-size: 12px; color: var(--text-muted); }
+  .card-rating {
+    display: flex; align-items: center; gap: 4px;
+    margin-top: 12px;
+  }
+  .stars { color: var(--gold); font-size: 13px; }
+  .rating-num { font-size: 13px; font-weight: 500; }
+  .rating-count { font-size: 12px; color: var(--text-muted); }
+  .book-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 11px;
+    background: var(--sage-light);
+    color: var(--sage);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .book-btn:hover { background: var(--sage); color: white; border-color: var(--sage); }
+
+  /* ── SERVICE DETAIL MODAL ── */
+  .detail-modal {
+    background: white;
+    border-radius: 24px;
+    width: 540px;
+    max-width: 90vw;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .detail-header {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: white;
+    border-radius: 24px 24px 0 0;
+    z-index: 1;
+  }
+  .detail-body { padding: 28px 32px; }
+  .detail-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 14px;
+  }
+  .detail-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .detail-section-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 10px;
+    margin-top: 24px;
+  }
+  .duration-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .dur-pill {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    font-size: 13px; cursor: pointer;
+    transition: all 0.18s;
+  }
+  .dur-pill.selected { background: var(--ink); color: white; border-color: var(--ink); }
+  .payment-methods { display: flex; gap: 10px; margin-top: 4px; }
+  .pay-method {
+    padding: 10px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px; cursor: pointer;
+    transition: all 0.18s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pay-method.selected { border-color: var(--sage); background: var(--sage-light); }
+  .rating-section { margin-top: 20px; }
+  .star-select { display: flex; gap: 6px; }
+  .star-btn {
+    font-size: 24px; background: none; border: none;
+    cursor: pointer; transition: transform 0.1s;
+    color: #ddd;
+  }
+  .star-btn:hover, .star-btn.lit { color: var(--gold); }
+  .star-btn:hover { transform: scale(1.2); }
+  .confirm-btn {
+    width: 100%; padding: 14px;
+    background: var(--sage); color: white;
+    border: none; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 500;
+    cursor: pointer; margin-top: 24px;
+    transition: all 0.2s;
+  }
+  .confirm-btn:hover { background: #3d6b4a; }
+  .price-display {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--mist);
+    border-radius: 10px; padding: 16px 20px;
+    margin-top: 8px;
+  }
+  .price-display-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800; color: var(--sage);
+  }
+
+  /* ── BOTTOM SECTION ── */
+  .bottom-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 72px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bottom-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(74,124,89,0.2) 0%, transparent 70%);
+  }
+  .bottom-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    position: relative;
+    align-items: start;
+  }
+  /* Left: Skills / Courses */
+  .bottom-left {
+    padding: 0 40px 0 48px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .bottom-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px; padding: 5px 12px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 20px; color: var(--sage-mid);
+  }
+  .bottom-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px; font-weight: 800;
+    line-height: 1.2; margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .bottom-desc {
+    font-size: 14px; color: rgba(245,242,236,0.6);
+    line-height: 1.7; margin-bottom: 24px;
+  }
+  .course-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .course-item {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 12px 16px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .course-item:hover { background: rgba(74,124,89,0.15); border-color: rgba(74,124,89,0.3); }
+  .course-icon { font-size: 18px; flex-shrink: 0; }
+  .course-name { font-size: 14px; font-weight: 500; }
+  .course-duration { font-size: 11px; color: rgba(245,242,236,0.4); margin-top: 2px; }
+  .course-btn {
+    padding: 12px 24px;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: var(--cream);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .course-btn:hover { border-color: var(--sage); color: var(--sage-mid); }
+
+  /* Center: Action Buttons */
+  .bottom-center {
+    padding: 0 32px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 20px;
+  }
+  .center-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(245,242,236,0.35);
+    text-align: center; margin-bottom: 4px;
+  }
+  .action-circle {
+    width: 76px; height: 76px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 300;
+    cursor: pointer; transition: all 0.25s;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    line-height: 1;
+  }
+  .action-plus {
+    background: var(--sage);
+    color: white;
+    box-shadow: 0 8px 24px rgba(74,124,89,0.4);
+  }
+  .action-plus:hover { background: #3d6b4a; transform: scale(1.08); box-shadow: 0 12px 32px rgba(74,124,89,0.5); }
+  .action-minus {
+    background: rgba(255,255,255,0.08);
+    color: var(--cream);
+    border: 1.5px solid rgba(255,255,255,0.15);
+  }
+  .action-minus:hover { background: var(--rust); border-color: var(--rust); transform: scale(1.08); }
+  .action-desc {
+    font-size: 12px; text-align: center;
+    color: rgba(245,242,236,0.5); max-width: 100px;
+    line-height: 1.5;
+  }
+
+  /* Right: Gig Workers */
+  .bottom-right {
+    padding: 0 48px 0 40px;
+    border-left: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── REGISTER MODAL ── */
+  .reg-modal {
+    background: white;
+    border-radius: 24px;
+    width: 480px; max-width: 90vw;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+  .reg-header {
+    padding: 28px 32px 24px;
+    background: var(--ink); color: var(--cream);
+  }
+  .reg-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 800; margin-bottom: 6px;
+  }
+  .reg-header p { font-size: 14px; color: rgba(245,242,236,0.6); }
+  .reg-body { padding: 28px 32px; }
+  .reg-input {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
+  }
+  .reg-input:focus { border-color: var(--sage); }
+  .reg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .reg-select {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; outline: none;
+    background: white; margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .slot-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 20px; }
+  .slot-btn {
+    padding: 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: 12px;
+    cursor: pointer; transition: all 0.18s;
+    background: white; text-align: center;
+  }
+  .slot-btn:hover { border-color: var(--sage); }
+  .slot-btn.selected { background: var(--sage); color: white; border-color: var(--sage); }
+
+  /* ── HIRE MODAL ── */
+  .hire-header {
+    padding: 28px 32px 24px;
+    background: var(--rust); color: white;
+  }
+  .hire-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 800; margin-bottom: 6px;
+  }
+  .hire-header p { font-size: 14px; color: rgba(255,255,255,0.7); }
+
+  /* ── GIG TASKS ── */
+  .gig-grid { display: flex; flex-direction: column; gap: 10px; }
+  .gig-item {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 12px 16px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .gig-item:hover { background: rgba(200,151,58,0.15); border-color: rgba(200,151,58,0.3); }
+  .gig-icon { font-size: 18px; flex-shrink: 0; }
+  .gig-name { font-size: 14px; font-weight: 500; }
+  .gig-pay {
+    margin-left: auto;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--gold);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    color: var(--cream); letter-spacing: -0.5px;
+  }
+  .footer-logo span { color: var(--sage); }
+  .footer-copy { font-size: 12px; color: rgba(245,242,236,0.3); }
+
+  /* ── SUCCESS TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 500;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { font-size: 16px; }
+
+  @media (max-width: 768px) {
+    .bottom-inner { grid-template-columns: 1fr; }
+    .bottom-left, .bottom-right { border: none; padding: 0 32px; margin-bottom: 48px; }
+    .bottom-center { padding: 0 32px 48px; }
+    .hero { padding: 48px 24px; }
+    .hero-stats { flex-wrap: wrap; gap: 24px; }
+    .services-section, .filter-section { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 3L4 7v5c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V7L12 3z" fill="white" opacity="0.9"/>
+        <path d="M9 12l2 2 4-4" stroke="#4a7c59" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="logo-name">Task<span>Nest</span></span>
+  </a>
+  <span class="nav-tagline">Work. Learn. Earn.</span>
+  <div class="nav-right">
+    <button class="nav-btn outline">Sign In</button>
+    <button class="nav-btn filled">Get Started</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Now live in 12 cities — Limited Early Access</div>
+    <h1>Your home.<br><em>Our people.</em><br>Zero hassle.</h1>
+    <p class="hero-sub">Book verified experts for any task in minutes. From electricians to tutors — TaskNest connects you with trusted professionals at fair, transparent prices.</p>
+    <div class="hero-ctas">
+      <button class="cta-primary" onclick="scrollToServices()">Browse Services</button>
+      <button class="cta-secondary" onclick="openRegister()">Become a Provider →</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">12,400+</div>
+        <div class="stat-label">Verified workers</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average rating</div>
+      </div>
+      <div>
+        <div class="stat-num">₹299</div>
+        <div class="stat-label">Starting price</div>
+      </div>
+      <div>
+        <div class="stat-num">45 min</div>
+        <div class="stat-label">Avg arrival time</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-section" id="services-top">
+  <div class="filter-row">
+    <span class="filter-label">Filter</span>
+    <button class="filter-btn active" onclick="openModal('area-modal')">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 2C5.2 2 3 4.2 3 7c0 3.5 5 9 5 9s5-5.5 5-9c0-2.8-2.2-5-5-5z" stroke="currentColor" stroke-width="1.5"/></svg>
+      Area
+    </button>
+    <button class="filter-btn" onclick="openModal('amount-modal')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 1v14M5 4h4.5a2.5 2.5 0 010 5H5m0 0h5.5a2.5 2.5 0 010 5H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Amount
+    </button>
+    <button class="filter-btn" onclick="openModal('duration-modal')">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Duration
+    </button>
+    <div class="divider-dot"></div>
+    <div class="service-scroll">
+      <button class="service-chip active" onclick="filterService('all',this)">All Services</button>
+      <button class="service-chip" onclick="filterService('electrician',this)">⚡ Electrician</button>
+      <button class="service-chip" onclick="filterService('catering',this)">🍽️ Catering</button>
+      <button class="service-chip" onclick="filterService('tutoring',this)">📚 Tutoring</button>
+      <button class="service-chip" onclick="filterService('dishwasher',this)">🍳 Dishwasher</button>
+      <button class="service-chip" onclick="filterService('caretaker',this)">🤝 Caretaker</button>
+      <button class="service-chip" onclick="filterService('furniture',this)">🪑 Furniture Repair</button>
+      <button class="service-chip" onclick="filterService('car',this)">🚗 Car Repair</button>
+      <button class="service-chip" onclick="filterService('motor',this)">⚙️ Motor Repair</button>
+      <button class="service-chip" onclick="filterService('plumber',this)">🔧 Plumber</button>
+      <button class="service-chip" onclick="filterService('painter',this)">🖌️ Painter</button>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES GRID -->
+<section class="services-section">
+  <div class="section-header">
+    <div class="section-title">Available Services</div>
+    <div class="section-count" id="service-count">10 services near you</div>
+  </div>
+  <div class="services-grid" id="services-grid">
+  </div>
+</section>
+
+<!-- BOTTOM SECTION -->
+<section class="bottom-section">
+  <div class="bottom-inner">
+
+    <!-- LEFT: Learn Skills -->
+    <div class="bottom-left">
+      <div class="bottom-badge">📖 Learn</div>
+      <div class="bottom-title">Gain skills.<br>Earn more.</div>
+      <p class="bottom-desc">Free and affordable courses taught by industry professionals. Turn your free time into a new income stream.</p>
+      <div class="course-list">
+        <div class="course-item">
+          <div class="course-icon">⚡</div>
+          <div>
+            <div class="course-name">Electrical Basics</div>
+            <div class="course-duration">3 weeks · Free</div>
+          </div>
+        </div>
+        <div class="course-item">
+          <div class="course-icon">🔧</div>
+          <div>
+            <div class="course-name">Plumbing Fundamentals</div>
+            <div class="course-duration">4 weeks · ₹499</div>
+          </div>
+        </div>
+        <div class="course-item">
+          <div class="course-icon">🚗</div>
+          <div>
+            <div class="course-name">Auto Repair Starter</div>
+            <div class="course-duration">6 weeks · ₹799</div>
+          </div>
+        </div>
+        <div class="course-item">
+          <div class="course-icon">🪑</div>
+          <div>
+            <div class="course-name">Furniture Restoration</div>
+            <div class="course-duration">2 weeks · Free</div>
+          </div>
+        </div>
+      </div>
+      <button class="course-btn">View All Courses →</button>
+    </div>
+
+    <!-- CENTER: Action Buttons -->
+    <div class="bottom-center">
+      <div class="center-label">Join as</div>
+      <div>
+        <button class="action-circle action-plus" onclick="openRegister()" title="Register as Worker">+</button>
+        <p class="action-desc" style="color:rgba(245,242,236,0.5);font-size:12px;text-align:center;margin-top:10px;">Register as<br>a worker</p>
+      </div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,0.1);"></div>
+      <div>
+        <button class="action-circle action-minus" onclick="openHire()" title="Hire Help">−</button>
+        <p class="action-desc" style="color:rgba(245,242,236,0.5);font-size:12px;text-align:center;margin-top:10px;">Hire help<br>at home</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Gig Workers -->
+    <div class="bottom-right">
+      <div class="bottom-badge" style="color:var(--gold);">💰 Earn</div>
+      <div class="bottom-title">No degree.<br>No problem.</div>
+      <p class="bottom-desc">Gig tasks anyone can do. Show up, work, get paid — same day. Perfect for earning extra income without any special skills.</p>
+      <div class="gig-grid">
+        <div class="gig-item">
+          <div class="gig-icon">📦</div>
+          <div>
+            <div class="gig-name">Delivery Helper</div>
+            <div class="course-duration" style="color:rgba(245,242,236,0.4)">2–4 hrs · Flexible</div>
+          </div>
+          <div class="gig-pay">₹400/hr</div>
+        </div>
+        <div class="gig-item">
+          <div class="gig-icon">🧹</div>
+          <div>
+            <div class="gig-name">House Cleaning</div>
+            <div class="course-duration" style="color:rgba(245,242,236,0.4)">3–5 hrs · Daily</div>
+          </div>
+          <div class="gig-pay">₹350/hr</div>
+        </div>
+        <div class="gig-item">
+          <div class="gig-icon">🛒</div>
+          <div>
+            <div class="gig-name">Grocery Runner</div>
+            <div class="course-duration" style="color:rgba(245,242,236,0.4)">1–2 hrs · Anytime</div>
+          </div>
+          <div class="gig-pay">₹300/hr</div>
+        </div>
+        <div class="gig-item">
+          <div class="gig-icon">🏗️</div>
+          <div>
+            <div class="gig-name">Lifting & Moving</div>
+            <div class="course-duration" style="color:rgba(245,242,236,0.4)">4–8 hrs · Weekends</div>
+          </div>
+          <div class="gig-pay">₹500/hr</div>
+        </div>
+      </div>
+      <button class="course-btn" style="margin-top:20px;width:100%;" onclick="openRegister()">Start Earning Today →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">Task<span>Nest</span></div>
+  <div class="footer-copy">© 2025 TaskNest · Work. Learn. Earn.</div>
+</footer>
+
+<!-- MODALS -->
+
+<!-- Area Modal -->
+<div class="modal-overlay" id="area-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('area-modal')">✕</button>
+    <h3>📍 Select Area</h3>
+    <div class="modal-field">
+      <label>Your Location</label>
+      <input class="range-input" type="text" placeholder="Enter your locality or pincode" style="width:100%">
+    </div>
+    <div class="modal-field">
+      <label>Search Radius</label>
+      <div class="slider-wrap">
+        <input type="range" min="1" max="20" value="5" id="radius-slider" oninput="document.getElementById('radius-val').textContent=this.value">
+      </div>
+      <div class="slider-labels"><span>1 km</span><span id="radius-val">5</span> km<span>20 km</span></div>
+    </div>
+    <button class="apply-btn" onclick="closeModal('area-modal');showToast('📍 Area filter applied!')">Apply Filter</button>
+  </div>
+</div>
+
+<!-- Amount Modal -->
+<div class="modal-overlay" id="amount-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('amount-modal')">✕</button>
+    <h3>💰 Filter by Amount</h3>
+    <div class="modal-field">
+      <label>Price Range (₹)</label>
+      <div class="range-row">
+        <input class="range-input" type="number" placeholder="Min ₹" value="299">
+        <input class="range-input" type="number" placeholder="Max ₹" value="5000">
+      </div>
+    </div>
+    <div class="modal-field">
+      <label>Payment Type</label>
+      <div class="payment-methods">
+        <div class="pay-method selected">💳 Online</div>
+        <div class="pay-method">💵 Cash</div>
+        <div class="pay-method">📱 UPI</div>
+      </div>
+    </div>
+    <button class="apply-btn" onclick="closeModal('amount-modal');showToast('💰 Amount filter applied!')">Apply Filter</button>
+  </div>
+</div>
+
+<!-- Duration Modal -->
+<div class="modal-overlay" id="duration-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('duration-modal')">✕</button>
+    <h3>⏱ Filter by Duration</h3>
+    <div class="modal-field">
+      <label>Job Length</label>
+      <div class="duration-pills">
+        <div class="dur-pill selected" onclick="selectDur(this)">Under 1 hr</div>
+        <div class="dur-pill" onclick="selectDur(this)">1–3 hrs</div>
+        <div class="dur-pill" onclick="selectDur(this)">3–6 hrs</div>
+        <div class="dur-pill" onclick="selectDur(this)">Full day</div>
+        <div class="dur-pill" onclick="selectDur(this)">Multi-day</div>
+      </div>
+    </div>
+    <div class="modal-field">
+      <label>Availability</label>
+      <div class="duration-pills">
+        <div class="dur-pill selected" onclick="selectDur(this)">Today</div>
+        <div class="dur-pill" onclick="selectDur(this)">Tomorrow</div>
+        <div class="dur-pill" onclick="selectDur(this)">This week</div>
+        <div class="dur-pill" onclick="selectDur(this)">Flexible</div>
+      </div>
+    </div>
+    <button class="apply-btn" onclick="closeModal('duration-modal');showToast('⏱ Duration filter applied!')">Apply Filter</button>
+  </div>
+</div>
+
+<!-- Service Detail Modal -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="detail-modal">
+    <div class="detail-header">
+      <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+      <div class="detail-icon" id="detail-icon"></div>
+      <div class="detail-title" id="detail-title"></div>
+      <div class="card-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num" id="detail-rating"></span>
+        <span class="rating-count" id="detail-reviews"></span>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-section-label">Select Duration</div>
+      <div class="duration-pills" id="detail-durations"></div>
+
+      <div class="detail-section-label">Estimated Price</div>
+      <div class="price-display">
+        <div>
+          <div style="font-size:12px;color:var(--text-muted)">Total payable</div>
+          <div class="price-display-num" id="detail-price"></div>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted)">Online payment<br>secured 🔒</div>
+      </div>
+
+      <div class="detail-section-label">Payment Method</div>
+      <div class="payment-methods">
+        <div class="pay-method selected" onclick="selectPay(this)">💳 Card</div>
+        <div class="pay-method" onclick="selectPay(this)">📱 UPI</div>
+        <div class="pay-method" onclick="selectPay(this)">🏦 Net Banking</div>
+      </div>
+
+      <div class="detail-section-label">Rate this Service (after completion)</div>
+      <div class="rating-section">
+        <div class="star-select" id="star-select">
+          <button class="star-btn" onclick="rateService(1)">★</button>
+          <button class="star-btn" onclick="rateService(2)">★</button>
+          <button class="star-btn" onclick="rateService(3)">★</button>
+          <button class="star-btn" onclick="rateService(4)">★</button>
+          <button class="star-btn" onclick="rateService(5)">★</button>
+        </div>
+      </div>
+
+      <button class="confirm-btn" onclick="bookService()">Confirm Booking & Pay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="register-modal">
+  <div class="reg-modal">
+    <button class="modal-close" onclick="closeModal('register-modal')" style="top:20px;right:20px;background:rgba(255,255,255,0.15);color:white;">✕</button>
+    <div class="reg-header">
+      <h3>+ Register as a Worker</h3>
+      <p>Book an appointment and start earning on TaskNest</p>
+    </div>
+    <div class="reg-body">
+      <div class="reg-row">
+        <input class="reg-input" type="text" placeholder="First Name">
+        <input class="reg-input" type="text" placeholder="Last Name">
+      </div>
+      <input class="reg-input" type="tel" placeholder="Phone Number">
+      <select class="reg-select">
+        <option>Select your skill / service</option>
+        <option>⚡ Electrician</option>
+        <option>🔧 Plumber</option>
+        <option>🚗 Car Repair</option>
+        <option>🪑 Furniture Repair</option>
+        <option>📚 Tutoring</option>
+        <option>🍽️ Catering</option>
+        <option>🤝 Caretaker</option>
+        <option>⚙️ Motor Repair</option>
+        <option>🧹 Cleaning</option>
+        <option>📦 Delivery</option>
+      </select>
+      <div class="detail-section-label" style="margin-top:4px;">Choose Appointment Slot</div>
+      <div class="slot-grid">
+        <div class="slot-btn" onclick="selectSlot(this)">Mon 9AM</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Mon 2PM</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Tue 10AM</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Tue 4PM</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Wed 9AM</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Wed 3PM</div>
+      </div>
+      <button class="apply-btn" style="background:var(--sage);" onclick="closeModal('register-modal');showToast('✅ Appointment booked! Welcome to TaskNest.')">Book Appointment</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hire Modal -->
+<div class="modal-overlay" id="hire-modal">
+  <div class="reg-modal">
+    <button class="modal-close" onclick="closeModal('hire-modal')" style="top:20px;right:20px;background:rgba(255,255,255,0.15);color:white;">✕</button>
+    <div class="hire-header">
+      <h3>− Hire Home Help</h3>
+      <p>Tell us what you need — we'll send someone fast</p>
+    </div>
+    <div class="reg-body">
+      <input class="reg-input" type="text" placeholder="Your Name">
+      <input class="reg-input" type="tel" placeholder="Phone Number">
+      <input class="reg-input" type="text" placeholder="Your Address / Area">
+      <select class="reg-select">
+        <option>What do you need help with?</option>
+        <option>⚡ Electrical issue</option>
+        <option>🔧 Plumbing problem</option>
+        <option>🧹 House cleaning</option>
+        <option>📦 Moving / Lifting</option>
+        <option>🛒 Grocery run</option>
+        <option>🤝 Elderly care</option>
+        <option>🍽️ Cooking help</option>
+        <option>Other</option>
+      </select>
+      <div class="detail-section-label">When do you need help?</div>
+      <div class="slot-grid">
+        <div class="slot-btn" onclick="selectSlot(this)">Now</div>
+        <div class="slot-btn selected" onclick="selectSlot(this)">Today</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Tomorrow</div>
+        <div class="slot-btn" onclick="selectSlot(this)">This week</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Weekend</div>
+        <div class="slot-btn" onclick="selectSlot(this)">Flexible</div>
+      </div>
+      <button class="apply-btn" style="background:var(--rust);" onclick="closeModal('hire-modal');showToast('🏠 Request sent! A worker will contact you shortly.')">Send Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon"></span>
+  <span id="toast-text"></span>
+</div>
+
+<script>
+const services = [
+  { id:'electrician', icon:'⚡', bg:'#fff9e6', name:'Electrician', duration:'1–3 hrs', price:'₹499', rating:'4.9', reviews:'(2.1k)', tag:'electrician' },
+  { id:'catering', icon:'🍽️', bg:'#f0faf5', name:'Catering Boys', duration:'4–8 hrs', price:'₹1,200', rating:'4.8', reviews:'(890)', tag:'catering' },
+  { id:'tutoring', icon:'📚', bg:'#eef4ff', name:'Tutoring Teacher', duration:'1–2 hrs', price:'₹399', rating:'4.9', reviews:'(3.4k)', tag:'tutoring' },
+  { id:'dishwasher', icon:'🫧', bg:'#f0f9ff', name:'Dishwasher', duration:'2–4 hrs', price:'₹299', rating:'4.7', reviews:'(560)', tag:'dishwasher' },
+  { id:'caretaker', icon:'🤝', bg:'#f5f0ff', name:'Caretaker', duration:'Full day', price:'₹800', rating:'4.9', reviews:'(1.2k)', tag:'caretaker' },
+  { id:'furniture', icon:'🪑', bg:'#fff5f0', name:'Furniture Repair', duration:'2–5 hrs', price:'₹650', rating:'4.8', reviews:'(740)', tag:'furniture' },
+  { id:'car', icon:'🚗', bg:'#f0f5ff', name:'Car Repair', duration:'3–6 hrs', price:'₹999', rating:'4.7', reviews:'(1.8k)', tag:'car' },
+  { id:'motor', icon:'⚙️', bg:'#f5f5f0', name:'Motor Repair', duration:'2–4 hrs', price:'₹750', rating:'4.8', reviews:'(430)', tag:'motor' },
+  { id:'plumber', icon:'🔧', bg:'#f0faff', name:'Plumber', duration:'1–3 hrs', price:'₹449', rating:'4.9', reviews:'(2.9k)', tag:'plumber' },
+  { id:'painter', icon:'🖌️', bg:'#fff0f5', name:'Painter', duration:'4–8 hrs', price:'₹1,100', rating:'4.7', reviews:'(620)', tag:'painter' },
+];
+
+const durations = {
+  electrician: ['1 hr','2 hrs','3 hrs'],
+  catering: ['4 hrs','6 hrs','Full day'],
+  tutoring: ['1 hr','1.5 hrs','2 hrs'],
+  dishwasher: ['2 hrs','3 hrs','4 hrs'],
+  caretaker: ['Half day','Full day','Weekly'],
+  furniture: ['2 hrs','3 hrs','5 hrs'],
+  car: ['3 hrs','5 hrs','Full day'],
+  motor: ['2 hrs','3 hrs','4 hrs'],
+  plumber: ['1 hr','2 hrs','3 hrs'],
+  painter: ['4 hrs','6 hrs','Full day'],
+};
+
+function renderServices(filter='all') {
+  const grid = document.getElementById('services-grid');
+  const filtered = filter === 'all' ? services : services.filter(s => s.tag === filter);
+  document.getElementById('service-count').textContent = `${filtered.length} service${filtered.length!==1?'s':''} near you`;
+  grid.innerHTML = filtered.map(s => `
+    <div class="service-card" onclick="openDetail('${s.id}')">
+      <div class="card-icon" style="background:${s.bg}">${s.icon}</div>
+      <div class="card-name">${s.name}</div>
+      <div class="card-meta">
+        <div class="meta-item">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5.5V8.5l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          ${s.duration}
+        </div>
+        <div class="meta-item">
+          <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 7h6M5 10h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Online payment
+        </div>
+      </div>
+      <div class="card-price">
+        <div class="price-num">From ${s.price}</div>
+        <div class="price-unit">/ visit</div>
+      </div>
+      <div class="card-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num">${s.rating}</span>
+        <span class="rating-count">${s.reviews} reviews</span>
+      </div>
+      <button class="book-btn">Book Now</button>
+    </div>
+  `).join('');
+}
+
+renderServices();
+
+function filterService(tag, el) {
+  document.querySelectorAll('.service-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderServices(tag);
+}
+
+function openDetail(id) {
+  const s = services.find(x => x.id === id);
+  document.getElementById('detail-icon').textContent = s.icon;
+  document.getElementById('detail-icon').style.background = s.bg;
+  document.getElementById('detail-title').textContent = s.name;
+  document.getElementById('detail-rating').textContent = s.rating;
+  document.getElementById('detail-reviews').textContent = s.reviews + ' reviews';
+  document.getElementById('detail-price').textContent = s.price;
+  const durs = durations[id] || ['1 hr','2 hrs','3 hrs'];
+  document.getElementById('detail-durations').innerHTML = durs.map((d,i) => `<div class="dur-pill ${i===0?'selected':''}" onclick="selectDur(this)">${d}</div>`).join('');
+  document.getElementById('star-select').querySelectorAll('.star-btn').forEach(b => b.classList.remove('lit'));
+  openModal('detail-modal');
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); });
+});
+
+function selectDur(el) {
+  el.closest('.duration-pills').querySelectorAll('.dur-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selectPay(el) {
+  el.closest('.payment-methods').querySelectorAll('.pay-method').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selectSlot(el) {
+  el.closest('.slot-grid').querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function rateService(n) {
+  document.querySelectorAll('#star-select .star-btn').forEach((b,i) => b.classList.toggle('lit', i<n));
+}
+function bookService() {
+  closeModal('detail-modal');
+  showToast('🎉 Booking confirmed! Payment processed securely.');
+}
+function openRegister() { openModal('register-modal'); }
+function openHire() { openModal('hire-modal'); }
+function scrollToServices() { document.getElementById('services-top').scrollIntoView({behavior:'smooth'}); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.querySelector('#toast-text').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
